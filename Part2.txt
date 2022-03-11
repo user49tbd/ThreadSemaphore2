@@ -1,0 +1,73 @@
+package Pack2;
+
+import java.util.concurrent.Semaphore;
+public class Th2b extends Thread{
+	private Semaphore sem;
+	int id = 0;
+	public Th2b(Semaphore sem,int id) {
+		this.sem = sem;
+		this.id=id;
+	}
+
+	public void run() {
+		if((id/2)==0) {
+			pp();
+		}else{
+			pi();
+		}
+		super.run();
+	}
+	public void pp() {
+		int t = (int) ((Math.random()*501)+300);
+		double tot = (int) (t/100);
+		try {
+			System.out.println("#"+id+"º"+" Preparando: Sopa de Cebola em "+t+"ns");
+			for(int c =0;c<tot;c++) {
+				sleep(100);
+				double d = (100*(100*c+1)/t);
+				System.out.println("#"+id+"º"+" Sopa de Cebola está "+d+"% concluida");
+			}
+			
+		}catch(Exception e) {
+			
+		}finally {
+			System.out.println("#"+id+"º"+" Sopa de Cebola está concluida");
+		}
+		String decp ="Sopa de Cebola Entregue!!!";
+		String decp1 ="Sopa de Cebola";
+		dec(id,decp,decp1);
+	}
+	public void pi() {
+		int t = (int) ((Math.random()*601)+600);
+		double tot = (Math.round((t/100)));
+		try {
+			System.out.println("#"+id+"º"+"Preparando: Lasanha a Bolonhesa em "+t+"ns");
+			for(int c =0;c<tot;c++) {
+				sleep(100);
+				double d = (100*(100*c+1)/t);
+				System.out.println("#"+id+"º"+"Lasanha a Bolonhesa está "+d+"% concluida");
+			}
+		}catch(Exception e) {
+			
+		}finally {
+			System.out.println("#"+id+"º"+" Lasanha a Bolonhesa está concluida");
+			
+		}
+		String decp ="Lasanha a Bolonhesa Entregue!!!";
+		String decp1 ="Lasanha a Bolonhesa";
+		dec(id,decp,decp1);
+	}
+	
+	public void dec(int id,String pk,String p){
+		try {
+			sem.acquire();
+			System.out.println("Realizando a Entrega da "+id+"º "+p);
+			sleep(500);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			sem.release();
+			System.out.println(id+"º "+pk);
+		}
+	}
+}
